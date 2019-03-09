@@ -53,19 +53,21 @@ function queryAllProducts() {
         for (var i = 0; i < res.length; i++) {
           if (res[i].item_id === parseInt(inquirerResponse.productID)) {
             chosenProduct = res[i];
-            chosenProductID = chosenProduct.item_id;
+            chosenProductPrice = res[i].price;
+            chosenProductID = res[i].item_id;
 
             //  Logging the product as JSON object
-            console.log(chosenProduct);
+        //    console.log(chosenProduct);
+          //  console.log(chosenProductID)
 
             // Var for customer inquirer response
             var customerWants = parseInt(inquirerResponse.howMuch);
             // Available from DB
             var availableDatabaseInventory = chosenProduct.stock_quantity
-            console.log(availableDatabaseInventory);
+           // console.log(availableDatabaseInventory);
             if (availableDatabaseInventory > customerWants) {
               var itemsRemaining = availableDatabaseInventory - customerWants;
-              console.log("The itemsRemaining are: ", itemsRemaining);
+              console.log("Stock quantity is now: ", itemsRemaining);
               
                function findRemainingInventory() {
                   connection.query(
@@ -79,12 +81,21 @@ function queryAllProducts() {
                       }
                     ]); 
 
-
-                  console.log("The remaining stock_quantity is: ", chosenProduct.stock_quantity);
+                  // Below log not displaying correct value but database is updating
+                  // console.log("The remaining stock_quantity is: ", chosenProduct.stock_quantity);
                 };
 
                 findRemainingInventory(); 
 
+                function calculateCost() {
+                  var userCost = customerWants * chosenProductPrice; 
+                  console.log("Please pay $" + parseFloat(userCost)); 
+                  console.log("-------------------------------------------")
+                  console.log("\n Thank you for shopping with us!")
+                  connection.end(); 
+                }; 
+                
+                calculateCost(); 
             };
           }
           // If not available, return error and console log
