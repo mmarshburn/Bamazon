@@ -22,7 +22,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (err) throw err;
-  console.log("connected as id " + connection.threadId);
+  console.log(("connected as id " + connection.threadId) + "\n");
   queryAllProducts(); 
 });
 
@@ -31,7 +31,7 @@ function queryAllProducts() {
     for (var i = 0; i < res.length; i++) {
       console.log(res[i].item_id + " | " + res[i].product_name + " |  " + res[i].price);
     }
-    console.log("-----------------------------------");
+    console.log("\n-----------------------------------\n");
 
     // inquire about ID and quantity
 
@@ -39,12 +39,12 @@ function queryAllProducts() {
       .prompt([{
         name: "productID",
         type: "input",
-        message: "What is the product_id of the item you would like to purchase?"
+        message: "What is the product_id of the item you would like to purchase?\n"
       },
       {
         name: "howMuch",
         type: "input",
-        message: "What is the quantity you would like to purchase?"
+        message: "What is the quantity you would like to purchase?\n"
       }])
 
       // Determine the product chosen - does it need to be converted to INT from string? 
@@ -67,7 +67,7 @@ function queryAllProducts() {
            // console.log(availableDatabaseInventory);
             if (availableDatabaseInventory > customerWants) {
               var itemsRemaining = availableDatabaseInventory - customerWants;
-              console.log("Stock quantity is now: ", itemsRemaining);
+              console.log("Stock quantity is now: ", itemsRemaining +"\n");
               
                function findRemainingInventory() {
                   connection.query(
@@ -89,7 +89,7 @@ function queryAllProducts() {
 
                 function calculateCost() {
                   var userCost = customerWants * chosenProductPrice; 
-                  console.log("Please pay $" + parseFloat(userCost)); 
+                  console.log("Please pay $" + parseFloat(userCost) + "\n"); 
                   console.log("-------------------------------------------")
                   console.log("\n Thank you for shopping with us!")
                   connection.end(); 
